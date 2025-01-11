@@ -1,0 +1,4 @@
+fastapi==0.100.0  # FastAPI framework
+uvicorn[standard]==0.22.0  # ASGI server for running FastAPI
+requests==2.31.0  # For making HTTP requests
+python-dotenv==1.0.0  # For managing environment variables
