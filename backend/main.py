@@ -1,11 +1,22 @@
-# backend/main.py (FastAPIの例)
 from fastapi import FastAPI, Query
 import requests
 from typing import Optional
+from fastapi.middleware.cors import CORSMiddleware
+import os  # For accessing environment variables
 
 app = FastAPI()
 
-API_KEY = "<YOUR_API_KEY>"
+# Add CORS middleware to allow requests from the frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Load API key from environment variables
+API_KEY = os.getenv("API_KEY")
 API_URL = f"https://financialmodelingprep.com/api/v3/income-statement/AAPL?period=annual&apikey={API_KEY}"
 
 @app.get("/financial-data")
@@ -16,14 +27,14 @@ def get_financial_data(
     revenue_max: Optional[int] = None,
     net_income_min: Optional[int] = None,
     net_income_max: Optional[int] = None,
-    sort_key: Optional[str] = None,       # "date", "revenue", "netIncome"など
+    sort_key: Optional[str] = None,       # e.g., "date", "revenue", "netIncome"
     sort_order: Optional[str] = "asc",    # "asc" or "desc"
 ):
-    # APIからデータ取得
+    # Fetch data from the external API
     response = requests.get(API_URL)
     data = response.json()
 
-    # 必要な項目を抽出してリストに格納
+    # Extract required fields and store them in a list
     statements = []
     for item in data:
         statements.append({
@@ -35,7 +46,7 @@ def get_financial_data(
             "operatingIncome": item["operatingIncome"],
         })
 
-    # フィルタ (サンプル)
+    # Apply filters
     if start_year is not None:
         statements = [
             s for s in statements
@@ -67,7 +78,7 @@ def get_financial_data(
             if s["netIncome"] <= net_income_max
         ]
 
-    # ソート
+    # Apply sorting
     if sort_key is not None:
         reverse_sort = True if sort_order == "desc" else False
         if sort_key == "date":

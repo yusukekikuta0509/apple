@@ -1,50 +1,81 @@
-# React + TypeScript + Vite
+# Financial Data Filtering App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web application to filter, sort, and display Apple's financial data fetched from an external API.  
+This project demonstrates the use of React for the frontend, FastAPI for the backend, and integration of a financial data API.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Fetches financial data for Apple Inc. from [Financial Modeling Prep API](https://financialmodelingprep.com/).
+- Allows users to filter data by:
+  - Date range (start year, end year).
+  - Revenue range.
+  - Net income range.
+- Sorts data by:
+  - Date.
+  - Revenue.
+  - Net income.
+- Displays data in a responsive table.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## Setup Instructions
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Prerequisites
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- Node.js and npm installed (for frontend).
+- Python and pip installed (for backend).
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Frontend Setup
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. Navigate to the `frontend` directory:
+   ```bash
+   cd frontend
+2. Install dependencies:
+   ```bash
+   npm install
+3. create a .env file in the frontend directory with your API key:
+   ```bash
+   REACT_APP_API_KEY=your_api_key_here
+4. Start the development server:
+   ```bash
+   npm start
+
+### Backend Setup
+1. Navigate to the `backend` directory:
+   ```bash
+   cd backend
+   ```
+2.install dependencies:
+   ```bash
+   pip install -r requirements.txt
+  ```
+3.create a .env file in the backend directory with your API key:
+   ```bash
+   API_KEY=your_api_key_here
+   ```
+4.Start the backend server:
+   ```bash
+   python main.py
+   ```
+   ---
+## Access the App
+- Frontend: 
+- Backend:
+
+## Usage
+- Open the app in your browser.
+- Use the filters and sorting options to explore Apple's financial data.
+- Click the Fillter button to view the filtered data.
+- Click on the column headers in the table to sort data
+
+## Technology stack
+- Frontend: React, TaliWindCSS
+- Backend: FastAPI
+- API: Financial Modeling Prep API
+
+## LIsence
+This project is licensed under the MIT License.
+
+
