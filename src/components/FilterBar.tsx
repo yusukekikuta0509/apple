@@ -21,7 +21,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataFetched }) => {
     setIsSubmitting(true); // Disable the button during the request
     try {
       // Send GET request to the backend with filter parameters
-      const response = await axios.get("http://127.0.0.1:8000/financial-data", {
+      const response = await axios.get("https://apple-nm3m.onrender.com", {
         params: {
           start_year: startYear,
           end_year: endYear,
