@@ -3,25 +3,24 @@ import axios from "axios";
 
 interface FilterBarProps {
   // Callback function to handle data fetched from the backend
-  onDataFetched: (data: any[]) => void; 
+  onDataFetched: (data: { [key: string]: any }[]) => void;
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({ onDataFetched }) => {
   // State variables to store filter values
-  const [startYear, setStartYear] = useState<number | null>(null); // Start year filter
-  const [endYear, setEndYear] = useState<number | null>(null); // End year filter
-  const [revenueMin, setRevenueMin] = useState<number | null>(null); // Minimum revenue filter
-  const [revenueMax, setRevenueMax] = useState<number | null>(null); // Maximum revenue filter
-  const [netIncomeMin, setNetIncomeMin] = useState<number | null>(null); // Minimum net income filter
-  const [netIncomeMax, setNetIncomeMax] = useState<number | null>(null); // Maximum net income filter
-  const [isSubmitting, setIsSubmitting] = useState(false); // Submission state for button disable and feedback
+  const [startYear, setStartYear] = useState<number | null>(null);
+  const [endYear, setEndYear] = useState<number | null>(null);
+  const [revenueMin, setRevenueMin] = useState<number | null>(null);
+  const [revenueMax, setRevenueMax] = useState<number | null>(null);
+  const [netIncomeMin, setNetIncomeMin] = useState<number | null>(null);
+  const [netIncomeMax, setNetIncomeMax] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Function to handle form submission and fetch filtered data
   const handleSubmit = async () => {
-    setIsSubmitting(true); // Disable the button during the request
+    setIsSubmitting(true);
     try {
-      // Send GET request to the backend with filter parameters
-      const response = await axios.get("https://apple-nm3m.onrender.com", {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}`, {
         params: {
           start_year: startYear,
           end_year: endYear,
@@ -31,20 +30,18 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataFetched }) => {
           net_income_max: netIncomeMax,
         },
       });
-      // Pass the fetched data to the parent component
-      onDataFetched(response.data); 
+      onDataFetched(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error); // Log any errors during the request
+      console.error("Error fetching data:", error);
+      alert("An error occurred while fetching data. Please try again.");
     } finally {
-      setIsSubmitting(false); // Re-enable the button after the request completes
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="p-4 bg-gray-100 rounded-md mb-4">
-      {/* Grid layout for filter inputs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Start Year Filter */}
         <div>
           <label htmlFor="startYear" className="block text-sm">
             Start Year
@@ -54,14 +51,10 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataFetched }) => {
             type="number"
             placeholder="e.g. 2020"
             value={startYear ?? ""}
-            onChange={(e) =>
-              setStartYear(e.target.value ? +e.target.value : null)
-            }
+            onChange={(e) => setStartYear(e.target.value ? +e.target.value : null)}
             className="border p-2 rounded-md w-full"
           />
         </div>
-
-        {/* End Year Filter */}
         <div>
           <label htmlFor="endYear" className="block text-sm">
             End Year
@@ -71,14 +64,10 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataFetched }) => {
             type="number"
             placeholder="e.g. 2024"
             value={endYear ?? ""}
-            onChange={(e) =>
-              setEndYear(e.target.value ? +e.target.value : null)
-            }
+            onChange={(e) => setEndYear(e.target.value ? +e.target.value : null)}
             className="border p-2 rounded-md w-full"
           />
         </div>
-
-        {/* Minimum Revenue Filter */}
         <div>
           <label htmlFor="revenueMin" className="block text-sm">
             Revenue Min
@@ -88,14 +77,10 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataFetched }) => {
             type="number"
             placeholder="e.g. 50000000"
             value={revenueMin ?? ""}
-            onChange={(e) =>
-              setRevenueMin(e.target.value ? +e.target.value : null)
-            }
+            onChange={(e) => setRevenueMin(e.target.value ? +e.target.value : null)}
             className="border p-2 rounded-md w-full"
           />
         </div>
-
-        {/* Maximum Revenue Filter */}
         <div>
           <label htmlFor="revenueMax" className="block text-sm">
             Revenue Max
@@ -105,14 +90,10 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataFetched }) => {
             type="number"
             placeholder="e.g. 100000000"
             value={revenueMax ?? ""}
-            onChange={(e) =>
-              setRevenueMax(e.target.value ? +e.target.value : null)
-            }
+            onChange={(e) => setRevenueMax(e.target.value ? +e.target.value : null)}
             className="border p-2 rounded-md w-full"
           />
         </div>
-
-        {/* Minimum Net Income Filter */}
         <div>
           <label htmlFor="netIncomeMin" className="block text-sm">
             Net Income Min
@@ -122,14 +103,10 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataFetched }) => {
             type="number"
             placeholder="e.g. 10000000"
             value={netIncomeMin ?? ""}
-            onChange={(e) =>
-              setNetIncomeMin(e.target.value ? +e.target.value : null)
-            }
+            onChange={(e) => setNetIncomeMin(e.target.value ? +e.target.value : null)}
             className="border p-2 rounded-md w-full"
           />
         </div>
-
-        {/* Maximum Net Income Filter */}
         <div>
           <label htmlFor="netIncomeMax" className="block text-sm">
             Net Income Max
@@ -139,15 +116,11 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataFetched }) => {
             type="number"
             placeholder="e.g. 50000000"
             value={netIncomeMax ?? ""}
-            onChange={(e) =>
-              setNetIncomeMax(e.target.value ? +e.target.value : null)
-            }
+            onChange={(e) => setNetIncomeMax(e.target.value ? +e.target.value : null)}
             className="border p-2 rounded-md w-full"
           />
         </div>
       </div>
-
-      {/* Submit button */}
       <button
         onClick={handleSubmit}
         disabled={isSubmitting}
